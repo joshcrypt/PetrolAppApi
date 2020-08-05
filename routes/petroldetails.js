@@ -51,6 +51,48 @@ router.put('/:Id',function(req,res){
     let found = petroldata.find(function (item){
         return item.Id === parseInt(req.params.Id)
     });
-});
 
+    //if item found
+    if(found){
+        let petroldataupdated = {
+            Id: found.Id,
+            Mileage: req.body.Mileage,
+            Capacity: req.body.Capacity,
+            Amount: req.body.Amount,
+            Price: req.body.Price,
+            PetrolStation: req.body.PetrolStation,
+            CarMake: req.body.CarMake,
+            AdditionalInfo: req.body.AdditionalInfo
+        };
+        //find the index of array from the Id
+        let targetIndex = petroldata.indexOf(found);
+        //replace object from data list with updated object
+        petroldata.splice(targetIndex,1,petroldataupdated);
+        // return with status 204
+        // success status response code 204 indicates
+        // that the request has succeeded
+        res.sendStatus(204);
+    }else{
+        res.sendStatus(404);
+    }
+});
+//DELETE
+//this api endpoint deletes an existing item by matching the returned Id
+router.delete('/:id',function (req, res){
+    let found = petroldata.find(function (item){
+        return item.id === parseInt(req.params.Id);
+    });
+    if (found) {
+        //if item found then find index at which the item is stored and delete
+        let targetIndex = petroldata.indexOf(found);
+        //splice means delete item from data array using index
+        petroldata.splice(targetIndex,1);
+        // return with status 204
+    // success status response code 204 indicates
+    // that the request has succeeded
+    res.sendStatus(204);
+    } else {
+        res.sendStatus(404);
+    }
+})
 module.exports = router;
