@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json());
 //use it before all route definitions allowing the URL below to access thes APIs endpoints
 //you can replace this URL from where you are calling these APIs
-app.use(cors({origin: 'http://localhost:8100'}));
+app.use(cors({origin: 'http://127.0.0.1:5500'}));
 
 /*this '/petroldata' URL will have multiple endpoints
 -> localhost:3000/petroldata/ (this returns array of object)  
