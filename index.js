@@ -39,6 +39,18 @@ function FormProcess(){
   var petroldata = JSON.stringify({"Mileage":Mileage,"PpL":PpL,"Amount":Amount,"Capacity":Capacity,"PetrolStation":PetrolStation,"LicensPlate":LicensePlate,"AdditionalInfo":AdditionalInfo});
   xhr.send(petroldata);
 }
+function deletePetrolDetails(Id){
+  var delpetroldetail = confirm("Are you sure you want to delete?");
+  if(delpetroldetail == true){
+    const xhr = new XMLHttpRequest();
+    let url = `http://localhost:3000/petroldetails/${Id}`
+    xhr.open("DELETE",url, false);
+    xhr.send();
+    location.reload();
+  } else{
+    location.reload();
+  }
+}
 function LoadPetrolDetails(){
   const xhr = new XMLHttpRequest();
   let url = "http://localhost:3000/petroldetails";
@@ -59,6 +71,12 @@ function LoadPetrolDetails(){
               <div>Petrol Station: ${petroldetail.PetrolStation}</div>
               <div>License Plate: ${petroldetail.LicensePlate}</div>
               <div>Additional Info: ${petroldetail.AdditionalInfo}</div>
+              <hr>
+              <button type="button" class="btn btn-danger" onclick="deletePetrolDetails(${petroldetail.Id})">Delete</button>
+              <button type="button" class="btn btn-primary" data-toggle="modal"
+                  data-target="#editBookModal" onClick="setEditModal(${petroldetail.Id})">
+                  Edit
+              </button>
           </div>
       </div>
     </div>

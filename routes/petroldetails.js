@@ -6,7 +6,6 @@ const router = express.Router();
 const fs = require('fs');
 
 //Read File from File System
-
 router.get('/',function(req,res){
     //Open petroldetails json
     fs.readFile('petroldetails.json', (err,data) => {
