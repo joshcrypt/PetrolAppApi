@@ -36,9 +36,10 @@ function FormProcess(){
         result.innerHTML = this.responseText; 
     } 
   }; 
-  var petroldata = JSON.stringify({"Mileage":Mileage,"PpL":PpL,"Amount":Amount,"Capacity":Capacity,"PetrolStation":PetrolStation,"LicensPlate":LicensePlate,"AdditionalInfo":AdditionalInfo});
+  var petroldata = JSON.stringify({"Mileage":Mileage,"PpL":PpL,"Amount":Amount,"Capacity":Capacity,"PetrolStation":PetrolStation,"LicensePlate":LicensePlate,"AdditionalInfo":AdditionalInfo});
   xhr.send(petroldata);
 }
+//Delete petrol details
 function deletePetrolDetails(Id){
   var delpetroldetail = confirm("Are you sure you want to delete?");
   if(delpetroldetail == true){
@@ -51,6 +52,36 @@ function deletePetrolDetails(Id){
     location.reload();
   }
 }
+//Update petrol details
+function setEditModal(Id){
+  const xhr = new XMLHttpRequest();
+  let url = `http://localhost:3000/petroldetails/${Id}`
+  xhr.open("GET",url, false);
+  xhr.send();
+  const petroldetail = JSON.parse(xhr.responseText);
+  
+  let Mileage = petroldetail.Mileage;
+  let Date = petroldetail.Date;
+  let PpL = petroldetail.PpL;
+  let Amount = petroldetail.Amount;
+  let Capacity = petroldetail.Capacity;
+  let PetrolStation = petroldetail.PetrolStation;
+  let LicensePlate = petroldetail.LicensPlate;
+  let AdditionalInfo = petroldetail.AdditionalInfo;
+
+  document.getElementById('Id').value = Id;
+  document.getElementById('Mileage').value = Mileage;
+  document.getElementById('Date').value = Date;
+  document.getElementById('PpL').value = PpL;
+  document.getElementById('Amount').value = Amount;
+  document.getElementById('Capacity').value = Capacity;
+  document.getElementById('PetrolStation').value = PetrolStation;
+  document.getElementById('LicensePlate').value = LicensePlate; 
+  document.getElementById('AdditionalInfo').value = AdditionalInfo;
+//Set the action on the form
+  document.getElementById('editpetroldetailsform').action = url;
+}
+//Load Petrol details in view page
 function LoadPetrolDetails(){
   const xhr = new XMLHttpRequest();
   let url = "http://localhost:3000/petroldetails";
@@ -74,7 +105,7 @@ function LoadPetrolDetails(){
               <hr>
               <button type="button" class="btn btn-danger" onclick="deletePetrolDetails(${petroldetail.Id})">Delete</button>
               <button type="button" class="btn btn-primary" data-toggle="modal"
-                  data-target="#editBookModal" onClick="setEditModal(${petroldetail.Id})">
+                  data-target="#editpetroldetailsModal" onclick="setEditModal(${petroldetail.Id})">
                   Edit
               </button>
           </div>
