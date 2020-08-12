@@ -66,7 +66,7 @@ function setEditModal(Id){
   let Amount = petroldetail.Amount;
   let Capacity = petroldetail.Capacity;
   let PetrolStation = petroldetail.PetrolStation;
-  let LicensePlate = petroldetail.LicensPlate;
+  let LicensePlate = petroldetail.LicensePlate;
   let AdditionalInfo = petroldetail.AdditionalInfo;
 
   document.getElementById('Id').value = Id;
@@ -79,7 +79,34 @@ function setEditModal(Id){
   document.getElementById('LicensePlate').value = LicensePlate; 
   document.getElementById('AdditionalInfo').value = AdditionalInfo;
 //Set the action on the form
-  document.getElementById('editpetroldetailsform').action = url;
+  //document.getElementById('editpetroldetailsform').action = url;
+}
+//Put Petrol Details after update
+function PutPetrolDetails(){
+  //alert("This has worked");
+  var Id = document.getElementById('Id').value;
+  var Mileage = document.getElementById('Mileage').value;
+  var Date = document.getElementById('Date').value;
+  var PpL = document.getElementById('PpL').value;
+  var Amount = document.getElementById('Amount').value;
+  var Capacity = document.getElementById('Capacity').value;
+  var PetrolStation = document.getElementById('PetrolStation').value;
+  var LicensePlate = document.getElementById('LicensePlate').value; 
+  var AdditionalInfo = document.getElementById('AdditionalInfo').value;
+  let xhr = new XMLHttpRequest();
+  let url = `http://localhost:3000/petroldetails/${Id}`;
+  xhr.open("PUT",url,true);
+  xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
+  xhr.onload = function () { 
+    if (xhr.readyState === 4 && xhr.status === 200) { 
+        // Print received data from server 
+        result.innerHTML = this.responseText; 
+    } else {
+      console.error(users);
+    }
+  }; 
+  var petroldata = JSON.stringify({"Mileage":Mileage,"Date":Date,"PpL":PpL,"Amount":Amount,"Capacity":Capacity,"PetrolStation":PetrolStation,"LicensePlate":LicensePlate,"AdditionalInfo":AdditionalInfo});
+  xhr.send(petroldata);
 }
 //Load Petrol details in view page
 function LoadPetrolDetails(){

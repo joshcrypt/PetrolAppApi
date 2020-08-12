@@ -82,6 +82,7 @@ router.put('/:Id',function(req,res){
         if(found){
             let petroldataupdated = {
                 Id: found.Id,
+                Date: req.body.Date,
                 Mileage: req.body.Mileage,
                 PpL: req.body.PpL,
                 Amount: req.body.Amount,
