@@ -118,11 +118,11 @@ function LoadPetrolDetails(){
   for(let petroldetail of petroldetails){
     const petrolview = `
       <div class="col-4">
-      <div class="card">
+      <div class="card text-center text-white bg-dark border-dark mb-3">
           <div class="card-body">
               <h5 class="card-title">${petroldetail.Date}</h5>
-              <h6 class="card-subtitle mb-2 text-muted">${petroldetail.Id}</h6>
-              <h6 class="card-subtitle mb-2 text-muted">${petroldetail.Mileage}</h6>
+              <h6 class="card-subtitle mb-2">${petroldetail.Id}</h6>
+              <h6 class="card-subtitle mb-2">${petroldetail.Mileage}</h6>
               <div>Amount: ${petroldetail.Amount}</div>
               <div>Price Per Liter: ${petroldetail.PpL}</div>
               <div>Capacity: ${petroldetail.Capacity}</div>

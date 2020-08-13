@@ -636,16 +636,5 @@
     "PetrolStation": "Shell",
     "LicensePlate": "KAL570Q",
     "AdditionalInfo": ""
-  },
-  {
-    "Id": 59,
-    "Date": "2020-08-12T09:59:11.901Z",
-    "Mileage": "383400",
-    "PpL": "98",
-    "Amount": "5000",
-    "Capacity": "51.02",
-    "PetrolStation": "Shell",
-    "LicensePlate": "KAL570Q",
-    "AdditionalInfo": ""
   }
 ]
