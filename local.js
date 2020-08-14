@@ -1,3 +1,4 @@
+//enables this app to run locally
 const http = require('http');
 const app = require('./server.js');
 const server = http.createServer(app);

@@ -161,7 +161,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/petrolappapi/production/1597399090436-2020-08-14T09:58:10.436Z/petrolappapi.zip"
+                "S3Key": "serverless/petrolappapi/production/1597404425616-2020-08-14T11:27:05.616Z/petrolappapi.zip"
               },
               "FunctionName": "petrolappapi-production-api",
               "Handler": "lambda.universal",
@@ -179,14 +179,14 @@
               "ApiLogGroup"
             ]
           },
-          "ApiLambdaVersionj7RSbckL3iiH5mClm2LCQ21AN1ZfnzuBDrkv889rhA": {
+          "ApiLambdaVersion1LSZFRkcgcBfQdt5TAFGxUvKAuRyUbPQtGdF1SvI": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "ApiLambdaFunction"
               },
-              "CodeSha256": "5WRJCWYjwB3Qxbb21iZouaQsICYlh3b2ZD9yQMaVnfc="
+              "CodeSha256": "w/o/evqGHvV1J8CPrzzMMvAL5FGMArSd8MZsjsjlRW0="
             }
           },
           "ApiGatewayRestApi": {
@@ -305,7 +305,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1597399072786": {
+          "ApiGatewayDeployment1597404407808": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -365,7 +365,7 @@
           "ApiLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "ApiLambdaVersionj7RSbckL3iiH5mClm2LCQ21AN1ZfnzuBDrkv889rhA"
+              "Ref": "ApiLambdaVersion1LSZFRkcgcBfQdt5TAFGxUvKAuRyUbPQtGdF1SvI"
             }
           },
           "ServiceEndpoint": {
@@ -480,7 +480,7 @@
         "timeout": 10,
         "runtime": "nodejs10.x",
         "vpc": {},
-        "versionLogicalId": "ApiLambdaVersionj7RSbckL3iiH5mClm2LCQ21AN1ZfnzuBDrkv889rhA"
+        "versionLogicalId": "ApiLambdaVersion1LSZFRkcgcBfQdt5TAFGxUvKAuRyUbPQtGdF1SvI"
       }
     },
     "configValidationMode": "warn",
@@ -498,7 +498,7 @@
       },
       "package": {
         "artifact": "/media/dizo/Dizo/Programming/nodejs/petrolappapi/.serverless/petrolappapi.zip",
-        "artifactDirectoryName": "serverless/petrolappapi/production/1597399090436-2020-08-14T09:58:10.436Z"
+        "artifactDirectoryName": "serverless/petrolappapi/production/1597404425616-2020-08-14T11:27:05.616Z"
       },
       "layers": {
         "$ref": "$[\"service\"][\"layers\"]"
@@ -509,7 +509,7 @@
     "artifact": "/media/dizo/Dizo/Programming/nodejs/petrolappapi/.serverless/petrolappapi.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/petrolappapi/production/1597399090436-2020-08-14T09:58:10.436Z",
+    "artifactDirectoryName": "serverless/petrolappapi/production/1597404425616-2020-08-14T11:27:05.616Z",
     "artifact": "petrolappapi.zip"
   }
 }

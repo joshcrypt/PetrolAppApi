@@ -38,7 +38,7 @@ router.get('/:Id',function (req,res){
 //CREATE
 /* This API endpoint creates a new object on the petroldata list array*/
 router.post('/',function(req,res){
-    //get Is from array
+    //get Ids from array
     //Open petroldetails json
     fs.readFile('petroldetails.json', (err,data) => {
         if (err) throw err;
