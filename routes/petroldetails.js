@@ -6,6 +6,7 @@ const router = express.Router();
 const fs = require('fs');
 var AWS = require('aws-sdk');
 const { resolve } = require('path');
+const { rejects } = require('assert');
 const cred = AWS.config.loadFromPath('./config.json');
 //Read File from File System
 router.get('/',function(req,res){
@@ -17,11 +18,7 @@ router.get('/',function(req,res){
         Key: file,
     }
     //initiate S3 session
-    const s3 = new AWS.S3({
-        accessKeyId: cred.accessKeyId,
-        secretAccessKey: cred.secretAccessKey,
-        Bucket: "petrolappapi"
-    });
+    const s3 = new AWS.S3({});
     //give feedback to get request
     s3.getObject(options, function(err,data){
         if(err){
@@ -44,11 +41,7 @@ router.get('/:Id',function (req,res){
         Key: file,
     }
     //initiate S3 session
-    const s3 = new AWS.S3({
-        accessKeyId: cred.accessKeyId,
-        secretAccessKey: cred.secretAccessKey,
-        Bucket: "petrolappapi"
-    });
+    const s3 = new AWS.S3({});
     //give feedback to get request
     const stream = s3.getObject(options,function(err,data){
         if(err){
@@ -75,6 +68,48 @@ router.get('/:Id',function (req,res){
 router.post('/',function(req,res){
     //get Ids from array
     //Open petroldetails json
+    var file = "petroldetails.json"
+    //login parameters
+    var options = {
+        Bucket: 'petrolappapi',
+        Key: file,
+    }
+    //initiate S3 session
+    const s3 = new AWS.S3({});
+    //give feedback to get request
+    const stream = s3.getObject(options,function(err,data){
+        if(err){
+            return err;
+        }
+        res.attachment(file);
+        //Convert to string first
+        petroldata = data.Body.toString('utf-8');
+        //Parse to JSON data
+        let petroldata = JSON.parse(petroldata);
+        let petrolId = petroldata.map(item => item.Id);
+        let newpetrolId = petrolId.length > 0 ? Math.max.apply(Math, petrolId) + 1 : 1;
+        let newPetrolData = {
+            Id: newpetrolId,
+            Mileage: req.body.Mileage,
+            Date: new Date(),
+            PpL: req.body.PpL,
+            Amount: req.body.Amount,
+            Capacity: req.body.Capacity,
+            PetrolStation: req.body.PetrolStation,
+            LicensePlate: req.body.LicensePlate,
+            AdditionalInfo: req.body.AdditionalInfo
+        };
+        petroldata.push(newPetrolData);
+        petroldata = JSON.stringify(petroldata, null, 2);
+        s3.putObject(options,function(err,petroldata){
+            if(err){
+                reject(err);
+            }else{
+                console.log("Successfully uploaded data to bucket");
+                resolve(petroldata);
+            }
+        })
+    });
     fs.readFile('petroldetails.json', (err,data) => {
         if (err) throw err;
         let petroldata = JSON.parse(data);
