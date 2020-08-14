@@ -6,7 +6,7 @@ const router = express.Router();
 const fs = require('fs');
 var AWS = require('aws-sdk');
 const { resolve } = require('path');
-
+const cred = AWS.config.loadFromPath('./config.json');
 //Read File from File System
 router.get('/',function(req,res){
     //get file
@@ -18,8 +18,8 @@ router.get('/',function(req,res){
     }
     //initiate S3 session
     const s3 = new AWS.S3({
-        accessKeyId: "AKIARNLP7QOWC5XXQ6WH",
-        secretAccessKey: "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",
+        accessKeyId: cred.accessKeyId,
+        secretAccessKey: cred.secretAccessKey,
         Bucket: "petrolappapi"
     });
     //give feedback to get request
@@ -27,8 +27,6 @@ router.get('/',function(req,res){
         if(err){
             return err;
         }
-        //let petroldata = data.Body;
-        res.attachment(file);
         petroldata = res.send(data.Body);
         res.status(200).petroldata;
     });
@@ -47,8 +45,8 @@ router.get('/:Id',function (req,res){
     }
     //initiate S3 session
     const s3 = new AWS.S3({
-        accessKeyId: "AKIARNLP7QOWC5XXQ6WH",
-        secretAccessKey: "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",
+        accessKeyId: cred.accessKeyId,
+        secretAccessKey: cred.secretAccessKey,
         Bucket: "petrolappapi"
     });
     //give feedback to get request
@@ -59,6 +57,7 @@ router.get('/:Id',function (req,res){
         res.attachment(file);
         //Convert to string first
         petroldata = data.Body.toString('utf-8');
+        //Parse to JSON data
         let newpetroldata = JSON.parse(petroldata);
         let found = newpetroldata.find(function (item){
             return item.Id === parseInt(req.params.Id);
@@ -70,17 +69,6 @@ router.get('/:Id',function (req,res){
             res.sendStatus(404);
         }
     });
-        /*let petroldata = res.send(data.Body);
-        //let petroldata = JSON.parse(data);
-        let found = petroldata.find(function (item){
-            return item.Id === parseInt(req.params.Id);
-        });
-        //if object found return an object else return 404 not found
-        if (found){
-            res.status(200).json(found);        
-        }else{
-            res.sendStatus(404);
-        }*/
 });
 //CREATE
 /* This API endpoint creates a new object on the petroldata list array*/
