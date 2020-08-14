@@ -4,14 +4,33 @@ const express = require('express');
 //create new router
 const router = express.Router();
 const fs = require('fs');
+var AWS = require('aws-sdk');
+const { resolve } = require('path');
 
 //Read File from File System
 router.get('/',function(req,res){
-    //Open petroldetails json
-    fs.readFile('petroldetails.json', (err,data) => {
-        if (err) throw err;
-        let petroldata = JSON.parse(data);
-        res.status(200).json(petroldata);
+    //get file
+    var file = "petroldetails.json"
+    //login parameters
+    var options = {
+        Bucket: 'petrolappapi',
+        Key: file,
+    }
+    //initiate S3 session
+    const s3 = new AWS.S3({
+        accessKeyId: "AKIARNLP7QOWC5XXQ6WH",
+        secretAccessKey: "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",
+        Bucket: "petrolappapi"
+    });
+    //give feedback to get request
+    s3.getObject(options, function(err,data){
+        if(err){
+            return err;
+        }
+        //let petroldata = data.Body;
+        res.attachment(file);
+        petroldata = res.send(data.Body);
+        res.status(200).petroldata;
     });
 });
 
@@ -19,12 +38,29 @@ router.get('/',function(req,res){
 //READ
 //this endpoint of an API returns JSON data array
 router.get('/:Id',function (req,res){
-    //find an object from petroldata array and match by id
-    //Open petroldetails json
-    fs.readFile('petroldetails.json', (err,data) => {
-        if (err) throw err;
-        let petroldata = JSON.parse(data);
-        let found = petroldata.find(function (item){
+    //get file
+    var file = "petroldetails.json"
+    //login parameters
+    var options = {
+        Bucket: 'petrolappapi',
+        Key: file,
+    }
+    //initiate S3 session
+    const s3 = new AWS.S3({
+        accessKeyId: "AKIARNLP7QOWC5XXQ6WH",
+        secretAccessKey: "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",
+        Bucket: "petrolappapi"
+    });
+    //give feedback to get request
+    const stream = s3.getObject(options,function(err,data){
+        if(err){
+            return err;
+        }
+        res.attachment(file);
+        //Convert to string first
+        petroldata = data.Body.toString('utf-8');
+        let newpetroldata = JSON.parse(petroldata);
+        let found = newpetroldata.find(function (item){
             return item.Id === parseInt(req.params.Id);
         });
         //if object found return an object else return 404 not found
@@ -34,6 +70,17 @@ router.get('/:Id',function (req,res){
             res.sendStatus(404);
         }
     });
+        /*let petroldata = res.send(data.Body);
+        //let petroldata = JSON.parse(data);
+        let found = petroldata.find(function (item){
+            return item.Id === parseInt(req.params.Id);
+        });
+        //if object found return an object else return 404 not found
+        if (found){
+            res.status(200).json(found);        
+        }else{
+            res.sendStatus(404);
+        }*/
 });
 //CREATE
 /* This API endpoint creates a new object on the petroldata list array*/

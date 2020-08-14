@@ -6,6 +6,7 @@
         "deploy": "serverless deploy"
     },
     "dependencies": {
+        "aws-sdk": "^2.733.0",
         "aws-serverless-express": "^3.3.8",
         "cors": "^2.8.5",
         "express": "^4.17.1"
