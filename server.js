@@ -22,4 +22,7 @@ app.use('/',function(req,res){
 const server = http.createServer(app);
 const port = 3000;
 //updated to enable this app to run in aws lambda
-module.exports = app;
+//module.exports = app;
+server.listen(port);
+//console debug output
+console.debug('Server listening on port ' + port);

@@ -628,11 +628,11 @@
   },
   {
     "Id": 58,
-    "Mileage": 383297,
-    "Date": "20-07-2020",
-    "PpL": 100.4,
-    "Amount": 1000,
-    "Capacity": 9.96,
+    "Date": "20-07-20201",
+    "Mileage": "383297",
+    "PpL": "100.4",
+    "Amount": "1000",
+    "Capacity": "9.96",
     "PetrolStation": "Shell",
     "LicensePlate": "KAL570Q",
     "AdditionalInfo": ""

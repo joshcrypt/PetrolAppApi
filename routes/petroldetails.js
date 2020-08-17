@@ -4,32 +4,14 @@ const express = require('express');
 //create new router
 const router = express.Router();
 const fs = require('fs');
-var AWS = require('aws-sdk');
-const { resolve } = require('path');
-const { rejects } = require('assert');
-const cred = AWS.config.loadFromPath('./config.json');
+
 //Read File from File System
 router.get('/',function(req,res){
-    //get file
-    var file = "petroldetails.json"
-    //login parameters
-    var options = {
-        Bucket: 'petrolappapi',
-        Key: file,
-    }
-    //initiate S3 session
-    const s3 = new AWS.S3({
-        accessKeyId: cred.accessKeyId,
-        secretAccessKey: cred.secretAccessKey,
-        Bucket:  'petrolappapi'
-    });
-    //give feedback to get request
-    s3.getObject(options, function(err,data){
-        if(err){
-            return err;
-        }
-        petroldata = res.send(data.Body);
-        res.status(200).petroldata;
+    //Open petroldetails json
+    fs.readFile('petroldetails.json', (err,data) => {
+        if (err) throw err;
+        let petroldata = JSON.parse(data);
+        res.status(200).json(petroldata);
     });
 });
 
@@ -37,30 +19,12 @@ router.get('/',function(req,res){
 //READ
 //this endpoint of an API returns JSON data array
 router.get('/:Id',function (req,res){
-    //get file
-    var file = "petroldetails.json"
-    //login parameters
-    var options = {
-        Bucket: 'petrolappapi',
-        Key: file,
-    }
-    //initiate S3 session
-    const s3 = new AWS.S3({
-        accessKeyId: cred.accessKeyId,
-        secretAccessKey: cred.secretAccessKey,
-        Bucket:  'petrolappapi'
-    });
-    //give feedback to get request
-    const stream = s3.getObject(options,function(err,data){
-        if(err){
-            return err;
-        }
-        res.attachment(file);
-        //Convert to string first
-        let petroldata = data.Body.toString('utf-8');
-        //Parse to JSON data
-        let newpetroldata = JSON.parse(petroldata);
-        let found = newpetroldata.find(function (item){
+    //find an object from petroldata array and match by id
+    //Open petroldetails json
+    fs.readFile('petroldetails.json', (err,data) => {
+        if (err) throw err;
+        let petroldata = JSON.parse(data);
+        let found = petroldata.find(function (item){
             return item.Id === parseInt(req.params.Id);
         });
         //if object found return an object else return 404 not found
@@ -76,28 +40,9 @@ router.get('/:Id',function (req,res){
 router.post('/',function(req,res){
     //get Ids from array
     //Open petroldetails json
-    var file = "petroldetails.json"
-    //login parameters
-    var options = {
-        Bucket: 'petrolappapi',
-        Key: file,
-    }
-    //initiate S3 session
-    const s3 = new AWS.S3({
-        accessKeyId: cred.accessKeyId,
-        secretAccessKey: cred.secretAccessKey,
-        Bucket:  'petrolappapi'
-    });
-    //give feedback to get request
-    const stream = s3.getObject(options,function(err,data){
-        if(err){
-            return err;
-        }
-        //Convert to string first
-        let petroldata = data.Body.toString('utf-8');
-        console.log(petroldata);
-        //Parse to JSON data
-        let petroldata = JSON.parse(petroldata);
+    fs.readFile('petroldetails.json', (err,data) => {
+        if (err) throw err;
+        let petroldata = JSON.parse(data);
         let petrolId = petroldata.map(item => item.Id);
         let newpetrolId = petrolId.length > 0 ? Math.max.apply(Math, petrolId) + 1 : 1;
         let newPetrolData = {
@@ -113,53 +58,32 @@ router.post('/',function(req,res){
         };
         petroldata.push(newPetrolData);
         petroldata = JSON.stringify(petroldata, null, 2);
-        var putoptions = {
-            Bucket: 'petrolappapi',
-            Key: file,
-            Body: petroldata
-        };
-        console.log(petroldata);
-        s3.putObject(putoptions,function(err,petroldata){
-            if(err){
-                console.log('ERROR', err);
-            }else{
-                res.status(201).json(newPetrolData);
-            }
+        fs.writeFile('petroldetails.json',petroldata, (err) => {
+            if (err) throw err;
         });
+        // return with status 201
+        // 201 means Created. The request has been fulfilled and 
+        // has resulted in one or more new resources being created.
+        res.status(201).json(newPetrolData);
     });
 });
 //UPDATE
 router.put('/:Id',function(req,res){
-    //get file
-    var file = "petroldetails.json"
-    //login parameters
-    var options = {
-        Bucket: 'petrolappapi',
-        Key: file,
-    }
-    //initiate S3 session
-    const s3 = new AWS.S3({
-        accessKeyId: cred.accessKeyId,
-        secretAccessKey: cred.secretAccessKey,
-        Bucket:  'petrolappapi'
-    });
-    //give feedback to get request
-    const stream = s3.getObject(options,function(err,data){
-        if(err){
-            return err;
-        }
-        //Convert to string first
-        let petroldata = data.Body.toString('utf-8');
-        //Parse to JSON data
-        let petroldata = JSON.parse(petroldata);
+    //Open petroldetails json
+    fs.readFile('petroldetails.json', (err,data) => {
+        if (err) throw err;
+        let petroldata = JSON.parse(data);
+        //get item object match by id
         let found = petroldata.find(function (item){
-            return item.Id === parseInt(req.params.Id);
+            return item.Id === parseInt(req.params.Id)
         });
+
+        //if item found
         if(found){
             let petroldataupdated = {
                 Id: found.Id,
-                Mileage: req.body.Mileage,
                 Date: req.body.Date,
+                Mileage: req.body.Mileage,
                 PpL: req.body.PpL,
                 Amount: req.body.Amount,
                 Capacity: req.body.Capacity,
@@ -172,19 +96,13 @@ router.put('/:Id',function(req,res){
             //replace object from data list with updated object
             petroldata.splice(targetIndex,1,petroldataupdated);
             petroldata = JSON.stringify(petroldata, null, 2);
-            var putoptions = {
-                Bucket: 'petrolappapi',
-                Key: file,
-                Body: petroldata
-            };
-            //console.log(petroldata);
-            s3.putObject(putoptions,function(err,petroldata){
-                if(err){
-                    throw err;
-                }else{
-                    res.sendStatus(204);
-                }
+            fs.writeFile('petroldetails.json',petroldata, (err) => {
+                if (err) throw err;
             });
+            // return with status 204
+            // success status response code 204 indicates
+            // that the request has succeeded
+            res.sendStatus(204);
         }else{
             res.sendStatus(404);
         }
@@ -193,51 +111,27 @@ router.put('/:Id',function(req,res){
 //DELETE
 //this api endpoint deletes an existing item by matching the returned Id
 router.delete('/:Id',function (req, res){
-    //get file
-    var file = "petroldetails.json"
-    //login parameters
-    var options = {
-        Bucket: 'petrolappapi',
-        Key: file,
-    }
-    //initiate S3 session
-    const s3 = new AWS.S3({
-        accessKeyId: cred.accessKeyId,
-        secretAccessKey: cred.secretAccessKey,
-        Bucket:  'petrolappapi'
-    });
-    //give feedback to get request
-    const stream = s3.getObject(options,function(err,data){
-        if(err){
-            return err;
-        }
-        //Convert to string first
-        let petroldata = data.Body.toString('utf-8');
-        //Parse to JSON data
-        petroldata = JSON.parse(petroldata);
+    //Open petroldetails json
+    fs.readFile('petroldetails.json', (err,data) => {
+        if (err) throw err;
+        let petroldata = JSON.parse(data);
         let found = petroldata.find(function (item){
             return item.Id === parseInt(req.params.Id);
         });
-        if(found){
+        if (found) {
             //if item found then find index at which the item is stored and delete
             let targetIndex = petroldata.indexOf(found);
             //splice means delete item from data array using index
             petroldata.splice(targetIndex,1);
             petroldata = JSON.stringify(petroldata, null, 2);
-            var putoptions = {
-                Bucket: 'petrolappapi',
-                Key: file,
-                Body: petroldata
-            };
-            //console.log(petroldata);
-            s3.putObject(putoptions,function(err,petroldata){
-                if(err){
-                    throw err;
-                }else{
-                    res.sendStatus(204);
-                }
+            fs.writeFile('petroldetails.json',petroldata, (err) => {
+                if (err) throw err;
             });
-        }else{
+            // return with status 204
+        // success status response code 204 indicates
+        // that the request has succeeded
+        res.sendStatus(204);
+        } else {
             res.sendStatus(404);
         }
     });
