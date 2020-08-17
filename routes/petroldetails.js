@@ -7,7 +7,7 @@ const fs = require('fs');
 var AWS = require('aws-sdk');
 const { resolve } = require('path');
 const { rejects } = require('assert');
-//const cred = AWS.config.loadFromPath('./config.json');
+const cred = AWS.config.loadFromPath('./config.json');
 //Read File from File System
 router.get('/',function(req,res){
     //get file
@@ -18,7 +18,11 @@ router.get('/',function(req,res){
         Key: file,
     }
     //initiate S3 session
-    const s3 = new AWS.S3({});
+    const s3 = new AWS.S3({
+        accessKeyId: cred.accessKeyId,
+        secretAccessKey: cred.secretAccessKey,
+        Bucket:  'petrolappapi'
+    });
     //give feedback to get request
     s3.getObject(options, function(err,data){
         if(err){
@@ -41,7 +45,11 @@ router.get('/:Id',function (req,res){
         Key: file,
     }
     //initiate S3 session
-    const s3 = new AWS.S3({});
+    const s3 = new AWS.S3({
+        accessKeyId: cred.accessKeyId,
+        secretAccessKey: cred.secretAccessKey,
+        Bucket:  'petrolappapi'
+    });
     //give feedback to get request
     const stream = s3.getObject(options,function(err,data){
         if(err){
@@ -49,7 +57,7 @@ router.get('/:Id',function (req,res){
         }
         res.attachment(file);
         //Convert to string first
-        petroldata = data.Body.toString('utf-8');
+        let petroldata = data.Body.toString('utf-8');
         //Parse to JSON data
         let newpetroldata = JSON.parse(petroldata);
         let found = newpetroldata.find(function (item){
@@ -75,7 +83,11 @@ router.post('/',function(req,res){
         Key: file,
     }
     //initiate S3 session
-    const s3 = new AWS.S3({});
+    const s3 = new AWS.S3({
+        accessKeyId: cred.accessKeyId,
+        secretAccessKey: cred.secretAccessKey,
+        Bucket:  'petrolappapi'
+    });
     //give feedback to get request
     const stream = s3.getObject(options,function(err,data){
         if(err){
@@ -83,8 +95,9 @@ router.post('/',function(req,res){
         }
         //Convert to string first
         let petroldata = data.Body.toString('utf-8');
+        console.log(petroldata);
         //Parse to JSON data
-        petroldata = JSON.parse(petroldata);
+        let petroldata = JSON.parse(petroldata);
         let petrolId = petroldata.map(item => item.Id);
         let newpetrolId = petrolId.length > 0 ? Math.max.apply(Math, petrolId) + 1 : 1;
         let newPetrolData = {
@@ -125,7 +138,11 @@ router.put('/:Id',function(req,res){
         Key: file,
     }
     //initiate S3 session
-    const s3 = new AWS.S3({});
+    const s3 = new AWS.S3({
+        accessKeyId: cred.accessKeyId,
+        secretAccessKey: cred.secretAccessKey,
+        Bucket:  'petrolappapi'
+    });
     //give feedback to get request
     const stream = s3.getObject(options,function(err,data){
         if(err){
@@ -134,7 +151,7 @@ router.put('/:Id',function(req,res){
         //Convert to string first
         let petroldata = data.Body.toString('utf-8');
         //Parse to JSON data
-        petroldata = JSON.parse(petroldata);
+        let petroldata = JSON.parse(petroldata);
         let found = petroldata.find(function (item){
             return item.Id === parseInt(req.params.Id);
         });
@@ -184,7 +201,11 @@ router.delete('/:Id',function (req, res){
         Key: file,
     }
     //initiate S3 session
-    const s3 = new AWS.S3({});
+    const s3 = new AWS.S3({
+        accessKeyId: cred.accessKeyId,
+        secretAccessKey: cred.secretAccessKey,
+        Bucket:  'petrolappapi'
+    });
     //give feedback to get request
     const stream = s3.getObject(options,function(err,data){
         if(err){
