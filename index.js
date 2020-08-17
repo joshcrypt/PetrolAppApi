@@ -38,6 +38,7 @@ function FormProcess(){
   }; 
   var petroldata = JSON.stringify({"Mileage":Mileage,"PpL":PpL,"Amount":Amount,"Capacity":Capacity,"PetrolStation":PetrolStation,"LicensePlate":LicensePlate,"AdditionalInfo":AdditionalInfo});
   xhr.send(petroldata);
+  location.reload();
 }
 //Delete petrol details
 function deletePetrolDetails(Id){
@@ -107,6 +108,7 @@ function PutPetrolDetails(){
   }; 
   var petroldata = JSON.stringify({"Mileage":Mileage,"Date":Date,"PpL":PpL,"Amount":Amount,"Capacity":Capacity,"PetrolStation":PetrolStation,"LicensePlate":LicensePlate,"AdditionalInfo":AdditionalInfo});
   xhr.send(petroldata);
+  location.reload();
 }
 //Load Petrol details in view page
 function LoadPetrolDetails(){
