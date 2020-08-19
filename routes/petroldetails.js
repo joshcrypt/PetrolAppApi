@@ -84,13 +84,12 @@ router.post('/',function(req,res){
     //initiate S3 session
     const s3 = new AWS.S3({
         accessKeyId: cred.accessKeyId,
-        secretAccessKey: cred.secretAccessKey,
-        Bucket:  'petrolappapi'
+        secretAccessKey: cred.secretAccessKey
     });
     //give feedback to get request
     const stream = s3.getObject(options,function(err,data){
         if(err){
-            return err;
+            console.log(err);
         }
         //Convert to string first
         let petroldata = data.Body.toString('utf-8');
@@ -123,6 +122,7 @@ router.post('/',function(req,res){
                 console.log('ERROR', err);
             }else{
                 res.status(201).json(newPetrolData);
+                console.log(petroldata);
             }
         });
     });
@@ -139,13 +139,12 @@ router.put('/:Id',function(req,res){
     //initiate S3 session
     const s3 = new AWS.S3({
         accessKeyId: cred.accessKeyId,
-        secretAccessKey: cred.secretAccessKey,
-        Bucket:  'petrolappapi'
+        secretAccessKey: cred.secretAccessKey
     });
     //give feedback to get request
     const stream = s3.getObject(options,function(err,data){
         if(err){
-            return err;
+            console.log(err);
         }
         //Convert to string first
         let petroldata = data.Body.toString('utf-8');
@@ -179,9 +178,10 @@ router.put('/:Id',function(req,res){
             //console.log(petroldata);
             s3.putObject(putoptions,function(err,petroldata){
                 if(err){
-                    throw err;
+                    console.log('ERROR', err);
                 }else{
                     res.sendStatus(204);
+                    console.log(petroldata);
                 }
             });
         }else{
@@ -202,13 +202,12 @@ router.delete('/:Id',function (req, res){
     //initiate S3 session
     const s3 = new AWS.S3({
         accessKeyId: cred.accessKeyId,
-        secretAccessKey: cred.secretAccessKey,
-        Bucket:  'petrolappapi'
+        secretAccessKey: cred.secretAccessKey
     });
     //give feedback to get request
     const stream = s3.getObject(options,function(err,data){
         if(err){
-            return err;
+            console.log(err);
         }
         //Convert to string first
         let petroldata = data.Body.toString('utf-8');
@@ -231,8 +230,9 @@ router.delete('/:Id',function (req, res){
             //console.log(petroldata);
             s3.putObject(putoptions,function(err,petroldata){
                 if(err){
-                    throw err;
+                    console.log('ERROR', err);
                 }else{
+                    console.log(petroldata);
                     res.sendStatus(204);
                 }
             });

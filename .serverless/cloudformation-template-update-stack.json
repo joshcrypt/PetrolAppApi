@@ -146,7 +146,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/petrolappapi/production/1597669264614-2020-08-17T13:01:04.614Z/petrolappapi.zip"
+          "S3Key": "serverless/petrolappapi/production/1597768838936-2020-08-18T16:40:38.936Z/petrolappapi.zip"
         },
         "FunctionName": "petrolappapi-production-api",
         "Handler": "lambda.universal",
@@ -164,14 +164,14 @@
         "ApiLogGroup"
       ]
     },
-    "ApiLambdaVersionPZzm7dsE4uCjMBj1oeD6JvSyIzNUK9KHOHsYOo1JVAs": {
+    "ApiLambdaVersionPxkXAxPBKnYDodKlI1Ubt2NBqQnCdo4FMHkNTcM": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ApiLambdaFunction"
         },
-        "CodeSha256": "8MdwieQsmLBgugsc7d8qT9Rp6XiMev3GOxR+UvGTc+M="
+        "CodeSha256": "6Qxh46sLmT6Lf/a/t6yNCtnku5533Ilzyh7o6QWoEE4="
       }
     },
     "ApiGatewayRestApi": {
@@ -290,7 +290,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1597669174460": {
+    "ApiGatewayDeployment1597768818805": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -350,7 +350,7 @@
     "ApiLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ApiLambdaVersionPZzm7dsE4uCjMBj1oeD6JvSyIzNUK9KHOHsYOo1JVAs"
+        "Ref": "ApiLambdaVersionPxkXAxPBKnYDodKlI1Ubt2NBqQnCdo4FMHkNTcM"
       }
     },
     "ServiceEndpoint": {
