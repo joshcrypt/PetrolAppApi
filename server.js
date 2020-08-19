@@ -19,7 +19,7 @@ app.use('/petroldetails', petroldataRouter);
 app.use('/',function(req,res){
     res.send('petrolappapi works :-)');
 });
-var port = process.env.PORT || 8000;
+var port = process.env.PORT || 5000;
 app.listen(port, function() {
     console.log('Our app is running on http://localhost:' + port);
 });
