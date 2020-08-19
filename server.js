@@ -19,11 +19,7 @@ app.use('/petroldetails', petroldataRouter);
 app.use('/',function(req,res){
     res.send('petrolappapi works :-)');
 });
-const server = http.createServer(app);
-const port = 3000;
-//updated to enable this app to run in aws lambda
-//module.exports = app;
-server.listen(port);
-//console debug output
-
-console.debug('Server listening on port ' + port);
+var port = process.env.PORT || 3000;
+app.listen(port, function() {
+    console.log('Our app is running on http://localhost:' + port);
+});
