@@ -2,6 +2,10 @@
     "name": "petrolappapi",
     "version": "1.0.0",
     "main": "server.js",
+    "engines": {
+        "node": "10.x",
+        "npm": "6.x"
+    },
     "scripts": {
         "start": "node server.js",
         "deploy": "serverless deploy"
@@ -12,9 +16,5 @@
         "aws-serverless-express": "^3.3.8",
         "cors": "^2.8.5",
         "express": "^4.17.1"
-    },
-    "engines": {
-        "node": "10.x",
-        "npm": "6.x"
     }
 }
