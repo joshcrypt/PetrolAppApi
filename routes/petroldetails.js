@@ -11,19 +11,6 @@ var cors = require('cors');
 const S3_BUCKET = process.env.S3_BUCKET;
 const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID;
 const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY;
-const whitelist = ['http://localhost:5500', 'https://petrolappapi.herokuapp.com'];
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  },
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  preflightContinue: false,
-  optionsSuccessStatus: 200
-}
 var isPreflight = function(req){
     var isHttpOptions = req.method === 'OPTIONS';
     var hasOriginHeader = req.headers['origin'];
