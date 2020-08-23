@@ -31,7 +31,11 @@ var isPreflight = function(req){
     return isHttpOptions && hasOriginHeader && hasRequestMethod;
 };
 var handleCors = function(req,res,next){
-    res.set('Access-Control-Allow-Origin', '*');
+    var allowedOrigins = ['http://localhost:5500', 'http://127.0.0.1:5500', 'https://techjamaa.com'];
+    var origin = req.headers.origin;
+    if(allowedOrigins.indexOf(origin) > -1){
+        res.setHeader('Access-Control-Allow-Origin', origin);
+    }
     if(isPreflight(req)){
         res.set('Access-Control-Allow-Methods','GET, POST, PUT, DELETE');
         res.set('Access-Control-Max-Age', '120');
