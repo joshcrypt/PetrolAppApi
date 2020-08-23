@@ -31,7 +31,7 @@ var isPreflight = function(req){
     return isHttpOptions && hasOriginHeader && hasRequestMethod;
 };
 var handleCors = function(req,res,next){
-    res.set('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
+    res.set('Access-Control-Allow-Origin', '*');
     if(isPreflight(req)){
         res.set('Access-Control-Allow-Methods','GET, POST, PUT, DELETE');
         res.set('Access-Control-Max-Age', '120');
